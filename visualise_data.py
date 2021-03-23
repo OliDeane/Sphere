@@ -325,7 +325,7 @@ class SequenceVisualisation(Sequence):
             lu = (self.meta['start'], self.meta['end'])
 
         fig, axes = pl.subplots(3, 1, sharex=True, figsize=(20, 10))
-        for vi, (kk, vv) in enumerate(self.video.iteritems()):
+        for vi, (kk, vv) in enumerate(self.video.items()):
             x = np.asarray(vv.index.tolist())
             y = np.asarray(vv[cols])
 
