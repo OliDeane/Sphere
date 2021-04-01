@@ -66,7 +66,7 @@ def load_train_test_arrays(public_data_path):
     train_x, train_y = load_sequences([1, 2, 3, 4, 5, 6, 7, 8], public_data_path)
     test_x, test_y = load_sequences([9, 10], public_data_path)
 
-    return train_x, train_y, test_x, test_y
+    return train_x, test_x, train_y, test_y
 
 def simple_impute(train_x, test_x, train_y, test_y):
     """ 
@@ -88,9 +88,16 @@ def simple_impute(train_x, test_x, train_y, test_y):
     test_x = test_x[test_y_has_annotation]
     test_y = test_y[test_y_has_annotation]
 
-    return train_x, train_y, test_x, test_y
+    return train_x, test_x, train_y, test_y
 
+def get_acceleration_df(df):
+    """ Given a full dataframe, this removes any non-acceleration
+    columns (As acceleration seems the most predictive feature) """
 
+    cols = [col for col in df.columns if 'acceleration_' in col]
+    acc_df = df[cols]
+
+    return acc_df
 
 
 
