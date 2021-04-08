@@ -27,15 +27,15 @@ def load_XY_dfs(public_data_path):
     for file_id in [2,3,4,5,6,7,8,9,10]:
         filename = str(file_id).zfill(5) # zfill fills with 5 zeros at the beginning of the string
 
-    new_df = pd.read_csv('{}/train/{}/columns_1000ms.csv'.format(public_data_path, filename))
-    x_df = x_df.append(new_df)
+        new_df = pd.read_csv('{}/train/{}/columns_1000ms.csv'.format(public_data_path, filename))
+        x_df = x_df.append(new_df)
 
     y_df = pd.read_csv('{}/train/{}/targets.csv'.format(public_data_path, '00001'))
     for file_id in [2,3,4,5,6,7,8,9,10]:
         filename = str(file_id).zfill(5) # zfill fills with 5 zeros at the beginning of the string
 
-    new_df = pd.read_csv('{}/train/{}/targets.csv'.format(public_data_path, filename))
-    y_df = y_df.append(new_df)
+        new_df = pd.read_csv('{}/train/{}/targets.csv'.format(public_data_path, filename))
+        y_df = y_df.append(new_df)
 
     return x_df, y_df
 
@@ -89,6 +89,12 @@ def simple_impute(train_x, test_x, train_y, test_y):
     test_y = test_y[test_y_has_annotation]
 
     return train_x, test_x, train_y, test_y
+
+def impute_none_labels(x_data, y_data):
+    y_has_annotation = np.isfinite(y_data.sum(1))
+    x_data = x_data[y_has_annotation]
+    y_data = y_data[y_has_annotation]
+    return x_data, y_data
 
 def get_acceleration_df(df):
     """ Given a full dataframe, this removes any non-acceleration
