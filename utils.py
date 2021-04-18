@@ -90,6 +90,18 @@ def simple_impute(train_x, test_x, train_y, test_y):
 
     return train_x, test_x, train_y, test_y
 
+def impute_data(X,Y):
+    imputer = SimpleImputer()
+    imputer.fit(X)
+    X = imputer.transform(X)
+
+    # Select only annotated rows
+    y_has_annotation = np.isfinite(Y.sum(1))
+    X = X[y_has_annotation]
+    Y = Y[y_has_annotation]
+
+    return X,Y
+
 def impute_none_labels(x_data, y_data):
     y_has_annotation = np.isfinite(y_data.sum(1))
     x_data = x_data[y_has_annotation]

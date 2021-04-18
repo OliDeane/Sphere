@@ -64,8 +64,12 @@ def plot_bb_animation(bb_values):
 if __name__ == "__main__":
 
     public_data_path, metadata_path = define_paths()
+
     x_df, y_df = load_XY_dfs(public_data_path)
+
     bb_df = get_bb_df(x_df)
+
     bb_df, bb_values = get_bb_coords(bb_df)
+    
     plot_bb_animation(bb_values)
 

@@ -27,8 +27,10 @@ def plot_cum_cov(pca, data, threshold):
     ax.grid(axis='x')
     plt.show()
 
-def do_pca(data_rescaled, variance):
-    plot_cum_cov(PCA().fit(data_rescaled), data_rescaled, threshold=variance)
+def do_pca(data_rescaled, variance, show_plot):
+    if show_plot:
+        plot_cum_cov(PCA().fit(data_rescaled), data_rescaled, threshold=variance)
+        
     pca = PCA(n_components = variance)
     pca.fit(data_rescaled)
     return pca.transform(data_rescaled)

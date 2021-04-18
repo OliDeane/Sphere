@@ -13,8 +13,8 @@ def get_broken_bar_list(gaze_object_list):
 def prepare_for_graphing(data_set, unique_cats): # Prepare data for graphing
 
 
-    unique_cats_2 = unique_cats
-    data_set_2 = data_set
+    # unique_cats_2 = unique_cats
+    # data_set_2 = data_set
     graph_list = []
     for category in unique_cats:
         graph_list.append([i for i, e in enumerate(data_set) if e == category])
@@ -47,11 +47,10 @@ def generate_graph(graphing_dict, unique_cats, system_data, coder_identity,ax):
       color_dict.update( {i: color_list[count]} )
     count += 1
 
-
   count = 0
   for i in graphing_dict:
     count += 1
-    ax.broken_barh(graphing_dict[i], ((count*5), 5), facecolors='tab:{}'.format(color_dict[i])) 
+    ax.broken_barh(graphing_dict[i], ((count*5), 5), facecolors=f'tab:{color_dict[i]}') 
 
     y_tick_labels.append(count*5+2.5)
     iterations.append(count*5)
@@ -67,8 +66,8 @@ def generate_graph(graphing_dict, unique_cats, system_data, coder_identity,ax):
   ax.grid(False)
 
   #iterations = [10,15,20,25,30] # Add in lines around bars
-  for i in iterations:
-    ax.axhline(y=i,linewidth=1, color='gray', alpha = 0.3)
+  # for i in iterations:
+  #   ax.axhline(y=i,linewidth=1, color='gray', alpha = 0.3)
 
   return ax
 
@@ -94,20 +93,21 @@ def get_activity_list(second_limit):
 
 
 if __name__ == '__main__':
-    second_limit = 500
-    labels, unique_labels, label_index = get_activity_list(second_limit)
-    graphing_dict = prepare_for_graphing(labels, unique_labels)
+  second_limit = 500
+  labels, unique_labels, label_index = get_activity_list(second_limit)
+  graphing_dict = prepare_for_graphing(labels, unique_labels)
 
-    #Initiate Graph
-    fig, plotter = plt.subplots(1, figsize=(8,3), sharex = True, gridspec_kw = {'hspace' : 0.05})
-    plt.title(f" Ground Truth activity for {second_limit} second time sequence ")
-    plt.rc('font', family='sans serif')
-    plt.rc('xtick', labelsize='x-small')
-    plt.rc('ytick', labelsize='x-small')
-    plt.tight_layout()
+  #Initiate Graph
+  fig, plotter = plt.subplots(1, figsize=(8,3), sharex = True, gridspec_kw = {'hspace' : 0.05})
+  plt.title(f" Ground Truth activity for {second_limit} second time sequence ")
+  plt.rc('font', family='sans serif')
+  plt.rc('xtick', labelsize='x-small')
+  plt.rc('ytick', labelsize='x-small')
+  plt.tight_layout()
 
-    # Fill graph with subplots - one for each coder
-    generate_graph(graphing_dict, unique_labels, labels, 'Activity', plotter)
+  # Fill graph with subplots - one for each coder
+  generate_graph(graphing_dict, unique_labels, labels, 'Activity', plotter)
 
-    plt.show()
+  plt.show()
 
+# alphas = np.random.uniform(low=0, high=1, size=(len(labels),)).tolist()

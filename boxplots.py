@@ -1,7 +1,7 @@
 from class_graphing import *
 from os import listdir
 from pandas import read_csv
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import os
 
 # load sequence for each subject, returns a list of numpy arrays
@@ -26,10 +26,14 @@ def group_by_activity(subjects, activities):
 # calculate total duration in sec for each activity per subject and plot
 def plot_durations(grouped, activities, unique_labels):
 	# calculate the lengths for each activity for each subject
-	freq = 1
-	durations = [[len(s[a])/freq for s in grouped] for a in activities]
-	pyplot.boxplot(durations, labels=unique_labels)
-	pyplot.show()
+
+    freq = 1
+    durations = [[len(s[a])/freq for s in grouped] for a in activities]
+    plt.boxplot(durations, labels=unique_labels)
+    ax = plt.gca()
+    ax.set_ylabel('Seconds')
+    ax.tick_params(axis='x', labelrotation=45)
+    plt.show()
 
 def get_all_targetDF_sequences(public_data_path):
 
