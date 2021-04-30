@@ -117,5 +117,70 @@ def get_acceleration_df(df):
 
     return acc_df
 
+def get_subset_df(df, label = None, multiple_labels = None):
+    if multiple_labels:
+        cols = [col for col in df.columns if label[0] in col or label[1] in col]
+        new_df = df[cols]
+    else:
+        cols = [col for col in df.columns if label in col]
+        new_df = df[cols]
+
+    return new_df
+
+def complex_impute(x_df):
+
+    """Imputes rooms and acc and removes pir features """
+
+    # create three different dataframes - acceleration, videos/rssi, pir
+    acc_df = get_subset_df(x_df, label = 'acceleration')
+    rooms_df = get_subset_df(x_df, label = ['video','rssi'], multiple_labels = True)
+    pir_df = get_subset_df(x_df, label = 'pir')
+
+    # total_df = list(acc_df.columns) + list(rooms_df.columns) + list(pir_df.columns)
+
+    # fill acc_df with forwardfill
+    acc_df = acc_df.ffill(axis = 0)
+
+    # fill rooms_df with zerosa
+    rooms_df = rooms_df.fillna(0)
+
+    # Ignore pir for now. 
+
+    frames = [acc_df, rooms_df]
+    return pd.concat(frames, axis=1)
+
+def forward_fill_impute(df):
+    """ Imputes with forward fill, but only for when lkess than 3 NaN values in a row. Fill remainder with zeros """
+    df = df.fillna(value=None, method='ffill', axis=None, limit=2, downcast=None).fillna(0)
+    return df
+
+def interpolate_impute(df):
+
+    """ Replace with mean up to a limit of 3 NaN values in a row. The issue here is that
+    if the person leaves a room (for e.g.), then this will still impute the following two data points. """
+    df = df.interpolate(limit=3).fillna(0)
+    return df
 
 
+
+
+def complex_impute(x_df):
+    """Imputes rooms and acc and removes pir features - has been improved iupon by other functions"""
+
+    # create three different dataframes - acceleration, videos/rssi, pir
+    acc_df = get_subset_df(x_df, label = 'acceleration')
+    rooms_df = get_subset_df(x_df, label = ['video','rssi'], extra = True)
+    pir_df = get_subset_df(x_df, label = 'pir')
+
+    # total_df = list(acc_df.columns) + list(rooms_df.columns) + list(pir_df.columns)
+
+    # fill acc_df with forwardfill
+    acc_df = acc_df.ffill(axis = 0)
+
+    # fill rooms_df with zerosa
+    rooms_df = rooms_df.fillna(0)
+
+    # Ignore pir for now. 
+
+    frames = [acc_df, rooms_df]
+    return pd.concat(frames, axis=1)

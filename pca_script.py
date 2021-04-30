@@ -22,12 +22,12 @@ def plot_cum_cov(pca, data, threshold):
     plt.title('The number of components needed to explain variance')
 
     plt.axhline(y=threshold, color='r', linestyle='-')
-    plt.text(0.5, 0.85, f'{threshold} cut-off threshold', color = 'red', fontsize=16)
+    plt.text(13, 0.1, f'{threshold} cut-off threshold', color = 'red', fontsize=16)
 
     ax.grid(axis='x')
     plt.show()
 
-def do_pca(data_rescaled, variance, show_plot):
+def do_pca(data_rescaled, variance, show_plot=True):
     if show_plot:
         plot_cum_cov(PCA().fit(data_rescaled), data_rescaled, threshold=variance)
         
